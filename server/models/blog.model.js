@@ -71,18 +71,13 @@ Blog.updateBlog = (id, blog, result) => {
 
 //delete blog
 Blog.deleteBlog = (id, result) => {
-  db.query("DELETE FROM blogs WHERE id = ?", id, (err, res) => {
+  db.query("DELETE from blogs WHERE id=?", [id], (err, res) => {
     if (err) {
-      console.log("Error: ", err);
+      console.log("Error while deleting blog");
       result(null, err);
-      return;
+    } else {
+      result(null, res);
     }
-    if (res.affectedRows == 0) {
-      result({ kind: "not_found" }, null);
-      return;
-    }
-    console.log("Deleted blog with id: ", id);
-    result(null, res);
   });
 };
 

@@ -1,31 +1,50 @@
-import { useParams, useHistory } from 'react-router-dom';
-import useFetch from './UseFetch';
+import React, { useEffect } from "react";
+import { useParams, useHistory } from "react-router-dom";
 
-const BlogDetails = () => {
-    const { id } = useParams();
-    const { data: blog, error, isPending } =  useFetch(`http://localhost:8000/blogs/` + id);
-    const history = useHistory();
+function BlogDetails(props) {
+  const [blog, setBlog] = React.useState([]);
+  const [isPending, setIsPending] = React.useState(true);
+  const [error, setError] = React.useState(null);
+  const { id } = useParams();
+  const history = useHistory();
 
-    const handleClick = () => {
-        fetch('http://localhost:8000/blogs/'+ blog.id, {
-            method: 'DELETE'
-        }).then(() => {
-            history.push('/');
-        })
-    }
+  useEffect(() => {
+    fetch(`http://localhost:8000/blogs/blogs/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setBlog(data);
+        setIsPending(false);
+        setError(null);
+      })
+      .catch((err) => {
+        setIsPending(false);
+        setError(err.message);
+      });
+  }, [id]);
 
-    return ( 
-        <div className="blog-details">
-            {isPending && <div>Loading...</div>}
-            {error && <div>{error}</div>}
-            <article >
-                <h2>{blog.title}</h2>
-                <p>Written by {blog.author}</p>
-                <div>{blog.body}</div>
-                <button onClick={handleClick}>Delete</button>
-            </article>
-        </div>
-     );
+  const handleClick = () => {
+    fetch(`http://localhost:8000/blogs/${id})`, {
+      method: "DELETE",
+    }).then(() => {
+      history.push("/");
+    });
+  };
+
+  return (
+    <div className="blog-details">
+      {isPending && <div>Loading...</div>}
+      {error && <div>{error}</div>}{" "}
+      {blog.map((blog, index) => (
+        <article key={index}>
+          <h2>Title: {blog.title}</h2>
+          <p>Written by: {blog.author}</p>
+          <div>Blog: {blog.body}</div>
+          <button onClick={handleClick}>Delete</button>
+        </article>
+      ))}
+    </div>
+  );
 }
- 
+
 export default BlogDetails;
