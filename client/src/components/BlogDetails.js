@@ -1,15 +1,15 @@
-import React, { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 
 function BlogDetails(props) {
-  const [blog, setBlog] = React.useState([]);
-  const [isPending, setIsPending] = React.useState(true);
-  const [error, setError] = React.useState(null);
+  const [blog, setBlog] = useState([]);
+  const [isPending, setIsPending] = useState(true);
+  const [error, setError] = useState(null);
   const { id } = useParams();
   const history = useHistory();
 
   useEffect(() => {
-    fetch(`http://localhost:8000/blogs/blogs/${id}`)
+    fetch(`http://localhost:8000/blogs/${id}`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -24,7 +24,7 @@ function BlogDetails(props) {
   }, [id]);
 
   const handleClick = () => {
-    fetch(`http://localhost:8000/blogs/${id})`, {
+    fetch(`http://localhost:8000/blogs/${id}`, {
       method: "DELETE",
     }).then(() => {
       history.push("/");
@@ -40,6 +40,7 @@ function BlogDetails(props) {
           <h2>Title: {blog.title}</h2>
           <p>Written by: {blog.author}</p>
           <div>Blog: {blog.body}</div>
+          <div>Date: {blog.date}</div>
           <button onClick={handleClick}>Delete</button>
         </article>
       ))}

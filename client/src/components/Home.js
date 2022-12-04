@@ -40,7 +40,7 @@ class Home extends Component {
 
   getBlogById = (id) => {
     axios
-      .get(`http://localhost:8000/blogs/blogs/${id}`)
+      .get(`http://localhost:8000/blogs/${id}`)
       .then((response) => {
         console.log(response);
         this.setState({

@@ -14,8 +14,8 @@ function App() {
         <div className="content">
           <Switch>
             <Route path="/" exact component={Home} />
-            <Route path="/create" component={Create} />
-            <Route path="/blogs/:id" component={BlogDetails} />
+            <Route path="/create"exact component={Create} />
+            <Route path="/blogs/:id" exact component={BlogDetails} />
             <Route path="*" component={NotFound} />
           </Switch>
         </div>

@@ -4,6 +4,7 @@ const Blog = function (blog) {
   this.title = blog.title;
   this.body = blog.body;
   this.author = blog.author;
+  this.date = blog.date;
 };
 
 //get all blogs
@@ -51,8 +52,8 @@ Blog.createBlog= (blogReqData, result) => {
 //update blog
 Blog.updateBlog = (id, blog, result) => {
   db.query(
-    "UPDATE blogs SET title = ?, body = ?, author = ? WHERE id = ?",
-    [blog.title, blog.body, blog.author, id],
+    "UPDATE blogs SET title = ?, body = ?, author = ?, date=?  WHERE id = ?",
+    [blog.title, blog.body, blog.author, blog.date, id],
     (err, res) => {
       if (err) {
         console.log("Error: ", err);

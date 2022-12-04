@@ -7,6 +7,7 @@ const Create = () => {
     title: "",
     body: "",
     author: "",
+    date: "", 
   });
   const [isPending, setIsPending] = useState(false);
   const history = useHistory();
@@ -52,6 +53,13 @@ const Create = () => {
           required
           value={blog.body}
           id="body"
+          onChange={handleChange}
+        />
+             <label>Blog Date:</label>
+        <input
+          required
+          value={blog.date}
+          id="date"
           onChange={handleChange}
         />
         <label>Blog author:</label>
